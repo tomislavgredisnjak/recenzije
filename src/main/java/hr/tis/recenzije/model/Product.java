@@ -12,7 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Check(constraints = "LENGTH(code) = 15")
@@ -22,7 +22,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(unique = true, length = 15, nullable = false)
-    @Size(min = 15, max = 15, message = "code mora imati točno 15 znakova.")
+    @Pattern(message = "code mora imati točno 15 znakova", regexp = "[\\d]{15}")
 	private String code;
 	private String name;
     @Column(name = "price_eur")

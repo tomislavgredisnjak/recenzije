@@ -27,4 +27,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	@Query("SELECT new hr.tis.recenzije.model.PopularProductsDTO(r.product, AVG(r.rating) as average_rating) FROM Review r GROUP BY r.product.id, r.product.code, r.product.name ORDER BY average_rating DESC")
 	public List<PopularProductsDTO> findTopRatedProducts();
+	
 }
