@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Page</title>
+    <title>Products</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
     <div th:replace="~{fragments/navbar :: main-nav}"></div>
-
     <h1>Products:</h1>
+
+    <form th:action="@{/products}" method="get">
+	    <label for="name">Name:</label>
+	    <input type="text" id="name" name="name" />
+	
+	    <label for="code">Code:</label>
+	    <input type="text" id="code" name="code" />
+	    <button type="submit">Search</button>
+    </form>
+    
+    <div class="product-container">
+        <div th:each="product : ${products}" class="product">
+            <h3 th:text="${product.name}"></h3>
+            <p><strong>Code:</strong> <span th:text="${product.code}"></span></p>
+            <p><strong>Price (EUR):</strong> <span th:text="${product.priceEur}"></span> €</p>
+            <p><strong>Price (USD):</strong> <span th:text="${product.priceUsd}"></span> $</p>
+            <p><strong>Description:</strong> <span th:text="${product.description}"></span></p>
+        </div>
+    </div>
+    
+    <h2 style="color: gold">Popular products:</h2>
+    <div class="product-container">
+        <div th:each="popularProduct : ${popularProducts.popularProducts}" class="popular-product">
+            <h3 th:text="${popularProduct.name}"></h3>
+            <p><strong>Average rating:</strong> <span th:text="${popularProduct.averageRating}"></span></p>
+        </div>
+    </div>
 </body>
 </html>

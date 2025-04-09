@@ -1,14 +1,11 @@
 package hr.tis.recenzije.service;
 
-import hr.tis.recenzije.ReviewRepository;
+import java.util.List;
 
-public class ReviewService {
+import hr.tis.recenzije.model.Review;
 
-	private final ReviewRepository reviewRepository;
+public interface ReviewService {
 
-	public ReviewService(ReviewRepository reviewRepository) {
-		this.reviewRepository = reviewRepository;
-	}
-	
+	public List<Review> findAll();
 	
 }

@@ -2,6 +2,8 @@ package hr.tis.recenzije.model;
 
 import java.util.List;
 
+import hr.tis.recenzije.model.dto.PopularProductsDTO;
+
 public class PopularProducts {
 
     private List<PopularProductsDTO> popularProducts;

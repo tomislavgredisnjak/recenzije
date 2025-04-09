@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Page</title>
+    <title>Reviews</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
     <div th:replace="~{fragments/navbar :: main-nav}"></div>
-
     <h1>Reviews:</h1>
+    
+    <div class="review-container">
+        <div th:each="review : ${reviews}" class="review">
+            <h3 th:text="${review.text}"></h3>
+            <p><strong>Product:</strong> <span th:text="${review.product.name}"></span></p>
+            <p><strong>Reviewer:</strong> <span th:text="${review.reviewer}"></span></p>
+            <p><strong>Rating:</strong> <span th:text="${review.rating}"></span></p>
+        </div>
+    </div>
 </body>
 </html>

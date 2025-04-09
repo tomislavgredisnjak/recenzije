@@ -18,3 +18,21 @@ nav {
 .nav-links a:hover {
 	color: #1abc9c;
 }
+
+.product-container, .review-container {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 10px;	
+}
+
+.product, .review {
+	padding: 10px;
+	border: 1px solid #ccc;
+	min-width: 15%;
+}
+
+.popular-product {
+	padding: 10px;
+	border: 1px solid gold;
+	min-width: 15%;
+}

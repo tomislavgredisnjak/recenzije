@@ -2,22 +2,18 @@ package hr.tis.recenzije.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import hr.tis.recenzije.model.PopularProducts;
 import hr.tis.recenzije.model.Product;
 import hr.tis.recenzije.service.ProductService;
-import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/api/products")
+@Controller
+@RequestMapping("/products")
 public class ProductController {
 	
 	private final ProductService productService;
@@ -25,26 +21,18 @@ public class ProductController {
 	public ProductController(ProductService productService) {
 		this.productService = productService;
 	}
-    
-    @PostMapping("/add")
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody final Product product) {
-        if (product.getCode() == null || product.getName() == null || product.getPriceEur() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
-    }
-    
-    @GetMapping("/")
-    public ResponseEntity<List<Product>> getProducts(@RequestParam(required = false) String code,
-            										 @RequestParam(required = false) String name) {
+	
+    @GetMapping("")
+    public String getProducts(@RequestParam(required = false) String code,
+            				  @RequestParam(required = false) String name, Model model) {
         List<Product> products = productService.getProducts(code, name);
-        return ResponseEntity.ok(products);
+        model.addAttribute("products", products);
+        model.addAttribute("popularProducts", getPopularProducts());
+        return "products";
     }
     
-    @GetMapping("/popular")
-    public ResponseEntity<PopularProducts> getPopularProducts() {
-        return ResponseEntity.ok(this.productService.getPopularProducts());
+    public PopularProducts getPopularProducts() {
+        return productService.getPopularProducts();
     }
     
 }

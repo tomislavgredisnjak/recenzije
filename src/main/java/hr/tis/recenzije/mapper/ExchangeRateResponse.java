@@ -1,4 +1,4 @@
-package hr.tis.recenzije;
+package hr.tis.recenzije.mapper;
 
 import java.util.List;
 

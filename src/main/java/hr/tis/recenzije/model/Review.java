@@ -1,9 +1,10 @@
 package hr.tis.recenzije.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,10 +20,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //TODO DODATI DTO
-    @ManyToOne(optional = false)
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
     private Product product;
     
     @Column(nullable = false)
@@ -34,13 +34,11 @@ public class Review {
     @Min(1)
     @Max(5)
     @Column(nullable = false)
-    private int rating;
+    private double rating;
     
-    public Review() {
-    	
-    }
+    public Review() {}
     
-    public Review(Product product, String reviewer, String text, int rating) {
+    public Review(Product product, String reviewer, String text, double rating) {
 		this.product = product;
 		this.reviewer = reviewer;
 		this.text = text;
@@ -79,11 +77,11 @@ public class Review {
         this.text = text;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }

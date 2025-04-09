@@ -1,9 +1,12 @@
 package hr.tis.recenzije.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.Check;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,7 +15,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Check(constraints = "LENGTH(code) = 15")
@@ -21,22 +26,28 @@ public class Product {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotEmpty
 	@Column(unique = true, length = 15, nullable = false)
-    @Pattern(message = "code mora imati točno 15 znakova", regexp = "[\\d]{15}")
+    @Pattern(message = "code mora imati točno 15 znakova", regexp = "^[A-Za-z0-9]{15}$")
 	private String code;
+	@NotEmpty
+	@Column(nullable = false)
 	private String name;
+    @Positive
     @Column(name = "price_eur")
-	private Double priceEur;
+	private BigDecimal priceEur;
+    @Positive
     @Column(name = "price_usd")
-	private Double priceUsd;
+	private BigDecimal priceUsd;
 	private String description;
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Review> reviews = new ArrayList<>();
 	
 	public Product() {}
 	
-	public Product(String code, String name, Double priceEur, Double priceUsd, String description) {
+	public Product(String code, String name, BigDecimal priceEur, BigDecimal priceUsd, String description) {
 		this.code = code;
 		this.name = name;
 		this.priceEur = priceEur;
@@ -68,19 +79,19 @@ public class Product {
 		this.name = name;
 	}
 	
-	public Double getPriceEur() {
+	public BigDecimal getPriceEur() {
 		return priceEur;
 	}
 	
-	public void setPriceEur(Double priceEur) {
+	public void setPriceEur(BigDecimal priceEur) {
 		this.priceEur = priceEur;
 	}
 	
-	public Double getPriceUsd() {
+	public BigDecimal getPriceUsd() {
 		return priceUsd;
 	}
 	
-	public void setPriceUsd(Double priceUsd) {
+	public void setPriceUsd(BigDecimal priceUsd) {
 		this.priceUsd = priceUsd;
 	}
 	

@@ -12,5 +12,7 @@ public interface ProductService {
 	public Product save(Product product);
 
 	public List<Product> getProducts(String code, String name);
+
+	public List<Product> findAll();
 	
 }

@@ -1,4 +1,4 @@
-package hr.tis.recenzije;
+package hr.tis.recenzije.repository;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import hr.tis.recenzije.model.PopularProductsDTO;
 import hr.tis.recenzije.model.Product;
+import hr.tis.recenzije.model.dto.PopularProductsDTO;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -25,7 +25,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "(LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))")
 	public List<Product> findByName(String name);
 	
-	@Query("SELECT new hr.tis.recenzije.model.PopularProductsDTO(r.product, AVG(r.rating) as average_rating) FROM Review r GROUP BY r.product.id, r.product.code, r.product.name ORDER BY average_rating DESC")
+	@Query("SELECT new hr.tis.recenzije.model.dto.PopularProductsDTO(r.product.name, AVG(r.rating) as average_rating)" +
+			 " FROM Review r GROUP BY r.product.id, r.product.code, r.product.name ORDER BY average_rating DESC")
 	public List<PopularProductsDTO> findTopRatedProducts();
 	
 }
